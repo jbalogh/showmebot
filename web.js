@@ -21,7 +21,7 @@ app.post('/showme', function(req, res) {
   var match = (new RegExp(trigger + '\\s*@?(\\w+)')).exec(text);
   if (match) {
     showme(match[1], function(link) {
-      res.send(link ? {text: user + ': ' + link, parse: 'full'} : 200);
+      res.send(link ? {text: '@' + user + ': ' + link, parse: 'full'} : 200);
     });
   } else {
     res.send(200);
