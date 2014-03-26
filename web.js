@@ -12,6 +12,8 @@ app.get('/', function(req, res) {
   res.send('Hello World!');
 });
 
+var goog = 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q='
+
 app.post('/showme', function(req, res) {
   console.log(req.body);
   var user = req.body.user_name;
@@ -21,10 +23,27 @@ app.post('/showme', function(req, res) {
   var match = (new RegExp(trigger + '\\s*@?(\\w+)')).exec(text);
   if (match) {
     showme(match[1], function(link) {
-      res.send(link ? {text: '@' + user + ': ' + link, parse: 'full'} : 200);
+      if (link) {
+        res.send({text: '@' + user + ': ' + link, parse: 'full'});
+      } else {
+        fallback();
+      }
     });
   } else {
-    res.send(200);
+    fallback();
+  }
+
+  function fallback() {
+    var q = text.replace(trigger, '');
+    request(goog + q, function(err, response, body) {
+      if (failure = (err || response.statusCode != 200)) {
+        console.error(failure);
+        res.send(200);
+      } else {
+        var link = JSON.parse(body).responseData.results[0].url;
+        res.send({text: '@' + user + ': ' + link, parse: 'full'});
+      }
+    });
   }
 });
 
