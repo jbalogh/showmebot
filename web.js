@@ -14,6 +14,20 @@ app.get('/', function(req, res) {
 
 var goog = 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&safe=active&q='
 
+app.post('/xkcd', function(req, res) {
+  var match = /xkcd.*?(\d+)/.exec(req.body.text);
+  if (!match) return res.send(200);
+  console.log('https://xkcd.com/' + match[1] + '/info.0.json');
+  request('https://xkcd.com/' + match[1] + '/info.0.json', function(err, response, body) {
+    if (err || response.statusCode != 200) {
+      console.error(err || response.statusCode);
+      res.send(200);
+    } else {
+      res.send({username: 'xkcdbot', text: JSON.parse(body).img, parse: 'full'});
+    }
+  });
+});
+
 app.post('/showme', function(req, res) {
   console.log(req.body);
   var user = req.body.user_name;
