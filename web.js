@@ -20,7 +20,7 @@ app.post('/showme', function(req, res) {
   var text = req.body.text;
   var trigger = req.body.trigger_word;
 
-  var match = (new RegExp(trigger + '\\s*@?(\\w+)')).exec(text);
+  var match = (new RegExp(trigger + '\\s*@?(\\w+)\\s*$')).exec(text);
   if (match) {
     showme(match[1], function(link) {
       if (link) {
