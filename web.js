@@ -12,7 +12,7 @@ app.get('/', function(req, res) {
   res.send('Hello World!');
 });
 
-var goog = 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q='
+var goog = 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&safe=active&q='
 
 app.post('/showme', function(req, res) {
   console.log(req.body);
