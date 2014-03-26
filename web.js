@@ -40,8 +40,13 @@ app.post('/showme', function(req, res) {
         console.error(failure);
         res.send(200);
       } else {
-        var link = JSON.parse(body).responseData.results[0].url;
-        res.send({text: '@' + user + ': ' + link, parse: 'full'});
+        console.log(JSON.parse(body));
+        var results = JSON.parse(body).responseData.results;
+        if (results.length) {
+          res.send({text: '@' + user + ': ' + results[0].url, parse: 'full'});
+        } else {
+          res.send(200);
+        }
       }
     });
   }
