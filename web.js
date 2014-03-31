@@ -50,16 +50,16 @@ app.post('/showme', function(req, res) {
   function fallback() {
     var q = text.replace(trigger, '');
     request(goog + q, function(err, response, body) {
-      if (failure = (err || response.statusCode != 200)) {
-        console.error(failure);
-        res.send(200);
+      if (err || response.statusCode != 200) {
+        console.error(err, response.statusCode);
+        res.send({text: ':sadpanda:'});
       } else {
         console.log(JSON.parse(body));
-        var results = JSON.parse(body).responseData.results;
-        if (results.length) {
-          res.send({text: '@' + user + ': ' + results[0].url, parse: 'full'});
+        var response = JSON.parse(body).responseData;
+        if (response && response.results.length) {
+          res.send({text: '@' + user + ': ' + response.results[0].url, parse: 'full'});
         } else {
-          res.send(200);
+          res.send({text: ':sadpanda:'});
         }
       }
     });
