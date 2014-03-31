@@ -82,3 +82,8 @@ function showme(name, cb) {
   });
 }
 
+setInterval(function() {
+  request('http://serene-temple-4339.herokuapp.com/', function(err, response, body) {
+    console.log('self-ping', err, response.statusCode);
+  });
+}, 30 * 1000);
