@@ -59,7 +59,7 @@ app.post('/showme', function(req, res) {
         var response = JSON.parse(body).responseData;
         if (response && response.results.length) {
           var url = querystring.unescape(response.results[0].url);
-          res.send({text: '@' + user + ': ' + url, parse: 'full'});
+          res.send({text: '@' + user + ': ' + url, icon_emoji: ':nyan:', parse: 'full'});
         } else {
           res.send({text: ':sadpanda:'});
         }
