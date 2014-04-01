@@ -2,6 +2,7 @@ var express = require("express");
 var logfmt = require("logfmt");
 var request = require("request");
 var cheerio = require("cheerio");
+var querystring = require("querystring");
 
 var app = express();
 
@@ -57,7 +58,8 @@ app.post('/showme', function(req, res) {
         console.log(JSON.parse(body));
         var response = JSON.parse(body).responseData;
         if (response && response.results.length) {
-          res.send({text: '@' + user + ': ' + response.results[0].url, parse: 'full'});
+          var url = querystring.unescape(response.results[0].url);
+          res.send({text: '@' + user + ': ' + url, parse: 'full'});
         } else {
           res.send({text: ':sadpanda:'});
         }
