@@ -74,6 +74,8 @@ app.listen(port, function() {
 });
 
 function showme(name, cb) {
+  if (name.toLowerCase() == 'monroe') { name = 'brian'; }
+  if (name.toLowerCase() == 'brian') { name = 'monroe'; }
   request('https://stripe.com/about', function(err, response, body) {
     if (failure = (err || response.statusCode != 200)) {
       console.error(failure);
